@@ -1,0 +1,9 @@
+<litepal>
+    <dbname value="duola_weather"/>
+    <version value="1"/>
+    <list>
+        <mapping class="com.example.duolaweather.db.Province"/>
+        <mapping class="com.example.duolaweather.db.City"/>
+        <mapping class="com.example.duolaweather.db.District"/>
+    </list>
+</litepal>
