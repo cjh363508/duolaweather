@@ -9,8 +9,8 @@ import org.litepal.crud.DataSupport;
 public class City extends DataSupport {
     private int id;
     private String name;
-    private int code;
     private int provinceId;
+    private int code;
 
     public int getId() {
         return id;
