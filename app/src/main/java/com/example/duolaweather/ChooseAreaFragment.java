@@ -1,6 +1,7 @@
 package com.example.duolaweather;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -108,6 +109,24 @@ public class ChooseAreaFragment extends Fragment {
                 queryDistricts();
             }
         });
+        listViewDistrict.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String weatherId=listDistrict.get(position).getWeatherId();
+                if(getActivity() instanceof MainActivity){
+                    Intent intent=new Intent(getActivity(),WeatherActivity.class);
+                    intent.putExtra("weather_id",weatherId);
+                    startActivity(intent);
+                    getActivity().finish();
+                }
+                else if(getActivity() instanceof WeatherActivity){
+                    WeatherActivity weatherActivity=(WeatherActivity) getActivity();
+                    weatherActivity.drawerLayout.closeDrawers();
+                    weatherActivity.swipeRefreshLayout.setRefreshing(true);
+                    weatherActivity.requestWeather(weatherId);
+                }
+            }
+        });
         queryProvinces();
         if(listProvince.size()>0){
             provinceSelected=listProvince.get(0);
@@ -155,6 +174,7 @@ public class ChooseAreaFragment extends Fragment {
             queryFromServer(url,E_CITY);
         }
     }
+
     private void queryDistricts() {
         textTitle.setText(provinceSelected.getName() + '-'  + citySelected.getName());
         listDistrict=DataSupport.where("cityId = ?",String.valueOf(citySelected.getId())).find(District.class);

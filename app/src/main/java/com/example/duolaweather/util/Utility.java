@@ -6,6 +6,8 @@ import android.util.Log;
 import com.example.duolaweather.db.City;
 import com.example.duolaweather.db.District;
 import com.example.duolaweather.db.Province;
+import com.example.duolaweather.gson.Weather;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -83,5 +85,20 @@ public class Utility {
             }
         }
         return false;
+    }
+
+    /*
+    * 解析天气json数据
+     */
+    public static Weather processWeatherJson(String strJson){
+        try{
+            JSONObject jsonObject=new JSONObject(strJson);
+            JSONArray jsonArray=jsonObject.getJSONArray("HeWeather");
+            String weatherContent=jsonArray.getJSONObject(0).toString();
+            return new Gson().fromJson(weatherContent,Weather.class);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
     }
 }
